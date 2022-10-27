@@ -1,7 +1,7 @@
 import {Request, Response} from 'express';
 import { encryptionPassword } from '../libs/crypto.helpers';
 import {UserModel, IUser} from '../models/user.model';
-import { Document, HydratedDocument } from 'mongoose';
+import { HydratedDocument } from 'mongoose';
 
 export const signupController = async (req: Request, res: Response) => {
     const hashedPassword = await encryptionPassword(req.body.password);
