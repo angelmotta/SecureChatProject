@@ -11,7 +11,7 @@ export interface IUser {
 
 // Schema corresponding to the document interface.
 const userSchema = new Schema<IUser>({
-    email: { type: String, required: true},
+    email: { type: String, required: true, unique: true},
     firstname: { type: String, required: true},
     lastname: { type: String, required: true},
     password: { type: String, required: true},
@@ -19,4 +19,5 @@ const userSchema = new Schema<IUser>({
 });
 
 // Create and export Model
-export default model<IUser>('User', userSchema);
+//export default model<IUser>('User', userSchema);
+export const UserModel = model<IUser>('User', userSchema);
