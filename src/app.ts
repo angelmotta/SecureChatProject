@@ -1,6 +1,7 @@
 import express from "express";
 import morgan from "morgan";
 import cors from 'cors';
+import myRouter from './routes/app.routes';
 
 // Init
 const app = express();
@@ -15,8 +16,6 @@ app.use(express.urlencoded({extended: false}));
 app.use(express.json());
 
 // Routes
-app.get('/', (_, res) => {
-    res.send(`API listening at ${app.get('port')}`);
-});
+app.use(myRouter);
 
 export default app;
