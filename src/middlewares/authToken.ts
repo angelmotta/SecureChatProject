@@ -20,7 +20,7 @@ export const verifyToken = (req: Request, res: Response, next: NextFunction) => 
         const payload = jwt.verify(tokenRequest, config.jwtSecret);
         console.log(payload);
         // Create userId attribute in HTTP Request
-        //   req.userId = payload._id;
+        //req.email = payload.email;
         // Go to original destination resource
         next();
     } catch (err) {
