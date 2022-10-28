@@ -1,8 +1,9 @@
-import jwt, { JwtPayload } from 'jsonwebtoken';
-//import {Request, Response, NextFunction} from 'express';
+import jwt from 'jsonwebtoken';
+import config from '../config/config';
 
 export const generateToken = (email: string) : string => {
     console.log(`--- call generateToken --`);
-    const token: string = jwt.sign({email: email}, process.env.SECRET_TOKEN || 'testsecrettoken');
+    console.log(config.jwtSecret);
+    const token: string = jwt.sign({email: email}, config.jwtSecret);
     return token;
 }
