@@ -1,6 +1,11 @@
-import jwt, { JwtPayload } from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 import {Request, Response, NextFunction} from 'express';
 import config from '../config/config';
+
+interface tokenPayload {
+  email: string;
+  iat: Date;
+}
 
 export const verifyToken = (req: Request, res: Response, next: NextFunction) => {  
     const tokenRequest = req.header('Authorization') || ''; 
@@ -12,19 +17,18 @@ export const verifyToken = (req: Request, res: Response, next: NextFunction) => 
   
     // Validate Token
     console.log("token Validation");
-    let payload: JwtPayload | string;
+    let payload: tokenPayload;
     try {
         // Validate token autenticity and get decoded info
-        console.log(tokenRequest);
-        console.log(config.jwtSecret);
-        const payload = jwt.verify(tokenRequest, config.jwtSecret);
+        payload = jwt.verify(tokenRequest, config.jwtSecret) as unknown as tokenPayload;
+        console.log(`Payload:`);
         console.log(payload);
-        // Create userId attribute in HTTP Request
-        //req.email = payload.email;
-        // Go to original destination resource
+        console.log(payload.email);
+        console.log(payload.iat);
+        // Make email attribute available in next() function
+        req.email = payload.email;
         next();
     } catch (err) {
-      console.log("Catch error jwt.verify()");
       res.status(401).json({"message": "Not authorized"});
       console.log(err);
       return; // Stop flow
