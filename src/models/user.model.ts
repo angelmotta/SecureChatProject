@@ -7,6 +7,7 @@ export interface IUser {
     firstname: string;
     lastname: string;
     password: string;
+    contacts: string[];
     registerdate: Date;
     isValidPassword(givenPasswd: string): boolean;
 }
@@ -17,6 +18,7 @@ const userSchema = new Schema<IUser>({
     firstname: { type: String, required: true},
     lastname: { type: String, required: true},
     password: { type: String, required: true},
+    contacts: [String],
     registerdate: {type: Date, default: Date.now}
 });
 
