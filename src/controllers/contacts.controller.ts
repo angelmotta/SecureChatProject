@@ -10,14 +10,28 @@ export const addContactController = async (req: Request, res: Response) => {
     // Find User in MongoDB
     const userDocument: HydratedDocument<IUser> | null = await UserModel.findOne({email: email});
     if (!userDocument) {
-        res.status(400).json({"status": 0, "msg": "User not found"});
+        res.status(404).json({"status": 0, "message": "User not found"});
         return;
     }
 
     // Validate existence of new contact Request in MongoDB
-    // TODO
+    const contactDocument: HydratedDocument<IUser> | null = await UserModel.findOne({email: newContact});
+    if (!contactDocument) {
+        res.status(404).json({"status": 0, "message": "User not found"});
+        return;
+    }
 
     // Validate if new contact is already registered
+    const currentContacts: string[] = userDocument.contacts;
+    console.log(currentContacts);
+
+    for (const contact of currentContacts) {
+        if (contact === newContact) {
+            console.log(`user already registered`);
+            res.status(400).json({"status": 0, "message": "User already registered"});
+            return;
+        }
+    }
 
     // Add new contact and save in MongoDB
     userDocument.contacts.push(newContact);
