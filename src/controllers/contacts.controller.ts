@@ -4,13 +4,13 @@ import {UserModel, IUser} from '../models/user.model';
 import Joi  from 'joi';
 
 export const addContactController = async (req: Request, res: Response) => {
-    // Validate input Request
     const loggedUser = req.email;
     if (!loggedUser) {
         res.status(400).json({"status": 0, "message": "User not authorized"});
         return;
     }
 
+    // Validate Request
     const {error, value: payloadRequest} = schemaRequest.validate(req.body);
     if (error) {
         console.log(error);
@@ -82,7 +82,7 @@ export const addContactController = async (req: Request, res: Response) => {
 // Joi Schema Definition
 const schemaRequest = Joi.object({
     contact: Joi.string()
-    .email({ minDomainSegments: 2 })
-    .required()
-    .trim()
+        .email({ minDomainSegments: 2 })
+        .required()
+        .trim()
 });

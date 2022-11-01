@@ -15,11 +15,11 @@ export const homeController = async (req: Request, res: Response) => {
 
     // get ListContactDetail
     const myContacts = userDocument.contacts;
-    await getListContactsDetails(myContacts);
+    const myListContactDetail = await getListContactsDetails(myContacts);
 
     // Make and Send Response
     const response = {
-        "contacts": userDocument.contacts
+        "contacts": myListContactDetail
     }
     res.status(200).json(response);
 }
