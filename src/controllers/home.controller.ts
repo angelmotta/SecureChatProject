@@ -3,7 +3,6 @@ import { HydratedDocument } from 'mongoose';
 import {UserModel, IUser} from '../models/user.model';
 
 export const homeController = async (req: Request, res: Response) => {
-    console.log(`--- call homeController ---`);
     const email = req.email;
     
     // Find User in MongoDB

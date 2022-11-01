@@ -16,15 +16,12 @@ export const verifyToken = (req: Request, res: Response, next: NextFunction) => 
     }
   
     // Validate Token
-    console.log("token Validation");
     let payload: tokenPayload;
     try {
         // Validate token autenticity and get decoded info
         payload = jwt.verify(tokenRequest, config.jwtSecret) as unknown as tokenPayload;
-        console.log(`Payload:`);
+        console.log(`Token authorized for :`);
         console.log(payload);
-        console.log(payload.email);
-        console.log(payload.iat);
         // Make email attribute available in next() function
         req.email = payload.email;
         next();
