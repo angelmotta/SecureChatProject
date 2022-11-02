@@ -1,4 +1,3 @@
-//import { HydratedDocument } from 'mongoose';
 import {UserModel } from '../models/user.model';
 
 interface IContactDetail {
