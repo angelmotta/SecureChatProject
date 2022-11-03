@@ -14,3 +14,10 @@ export const sendMessageService = async (message: IMessage): Promise<void | Erro
         return Error("Service unavailable");
     }
 }
+
+export const getChatService = async (user1: string, user2: string): Promise<IMessage[]> => {
+    // Create a Document (Instance Model)
+    const resMessages: IMessage[] = await MessageModel.find({$or: [{sender: user1, receiver: user2}, {sender: user2, receiver: user1}]});
+    console.log(resMessages);
+    return resMessages;
+}
