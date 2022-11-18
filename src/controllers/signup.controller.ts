@@ -1,16 +1,16 @@
-import {Request, Response} from 'express';
+import { Request, Response } from 'express';
 import { encryptionPassword } from '../libs/crypto.helpers';
-import {UserModel, IUser} from '../models/user.model';
+import { UserModel, IUser } from '../models/user.model';
 import { HydratedDocument } from 'mongoose';
 import { generateToken } from '../libs/jwt.helpers';
-import Joi  from 'joi';
+import Joi from 'joi';
 
 export const signupController = async (req: Request, res: Response) => {
     // Validation Request
-    const {error, value: payloadRequest} = schemaRequest.validate(req.body);
+    const { error, value: payloadRequest } = schemaRequest.validate(req.body);
     if (error) {
         console.log(error.message);
-        res.status(404).json({"status": 0, "message": error.message});
+        res.status(404).json({ status: 0, message: error.message });
         return;
     }
 
@@ -19,20 +19,21 @@ export const signupController = async (req: Request, res: Response) => {
         email: payloadRequest.email,
         firstname: payloadRequest.firstname,
         lastname: payloadRequest.lastname,
-        password: hashedPassword
-    }
-    
+        password: hashedPassword,
+        publickey: payloadRequest.publickey,
+    };
+
+    console.log(newReqUser);
     // Create a Document (Instance Model)
-    const newUser: HydratedDocument<IUser> =  new UserModel(newReqUser);
+    const newUser: HydratedDocument<IUser> = new UserModel(newReqUser);
     console.log(newUser);
 
     // Insert new User in MongoDB
     try {
         await newUser.save();
-    }
-    catch(err) {
+    } catch (err) {
         console.log(err);
-        res.status(400).json({"message": "Email already registered"});
+        res.status(400).json({ message: 'Email already registered' });
         return;
     }
 
@@ -42,11 +43,11 @@ export const signupController = async (req: Request, res: Response) => {
 
     // Send HTTP Response
     const response = {
-        "message": "Signup Success",
-        "token": token
-    }
+        message: 'Signup Success',
+        token: token,
+    };
     res.status(200).json(response);
-}
+};
 
 // Joi Schema Definition
 const schemaRequest = Joi.object({
@@ -55,13 +56,11 @@ const schemaRequest = Joi.object({
         .required()
         .lowercase()
         .trim(),
-    firstname: Joi.string()
-        .required()
-        .trim(),
-    lastname: Joi.string()
-        .required()
-        .trim(),
-    password: Joi.string()
-        .trim()
-        .required()
+    firstname: Joi.string().required().trim(),
+    lastname: Joi.string().required().trim(),
+    password: Joi.string().trim().required(),
+    publickey: Joi.object().keys({
+        x: Joi.string().required().trim(),
+        y: Joi.string().required().trim(),
+    }),
 });
