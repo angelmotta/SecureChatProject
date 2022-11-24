@@ -1,11 +1,6 @@
 import { Schema, model } from 'mongoose';
 import bcrypt from 'bcrypt';
 
-interface IPublicKey {
-    x: string;
-    y: string;
-}
-
 // Interface representing a document in MongoDB.
 export interface IUser {
     email: string;
@@ -14,7 +9,7 @@ export interface IUser {
     password: string;
     contacts: string[];
     registerdate: Date;
-    publickey: IPublicKey;
+    publickey: string;
     isValidPassword(givenPasswd: string): boolean;
 }
 
@@ -25,13 +20,7 @@ const userSchema = new Schema<IUser>({
     lastname: { type: String, required: true },
     password: { type: String, required: true },
     contacts: [String],
-    publickey: {
-        type: {
-            x: { type: String, required: true },
-            y: { type: String, required: true },
-        },
-        required: false,
-    },
+    publickey: { type: String, required: true},
     registerdate: { type: Date, default: Date.now },
 });
 

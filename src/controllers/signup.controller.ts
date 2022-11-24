@@ -59,8 +59,5 @@ const schemaRequest = Joi.object({
     firstname: Joi.string().required().trim(),
     lastname: Joi.string().required().trim(),
     password: Joi.string().trim().required(),
-    publickey: Joi.object().keys({
-        x: Joi.string().required().trim(),
-        y: Joi.string().required().trim(),
-    }),
+    publickey: Joi.string().trim().required(),
 });

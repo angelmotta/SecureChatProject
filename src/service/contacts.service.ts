@@ -4,6 +4,8 @@ interface IContactDetail {
     email: string;
     firstname: string;
     lastname: string;
+    publickey: string;
+    registerdate: Date;
   }
 
 export const getListContactsDetails = async (contacts: string[]): Promise<IContactDetail[]> => {
@@ -22,6 +24,8 @@ export const getListContactsDetails = async (contacts: string[]): Promise<IConta
             email: contactDetail.email,
             firstname: contactDetail.firstname,
             lastname: contactDetail.lastname,
+            publickey: contactDetail.publickey,
+            registerdate: contactDetail.registerdate
         };
         listContactDetail.push(contact); 
     }
