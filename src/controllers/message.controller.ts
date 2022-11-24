@@ -22,8 +22,10 @@ export const sendMessageController = async (req: Request, res: Response) => {
         sender: loggedUser,
         receiver: value.receiver,
         message: value.message,
+        date: new Date(Date.now()),
     };
 
+    console.log(payloadRequest);
     try {
         sendMessageService(payloadRequest);
     } catch (err) {
