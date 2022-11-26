@@ -3,6 +3,7 @@ import { encryptionPassword } from '../libs/crypto.helpers';
 import { UserModel, IUser } from '../models/user.model';
 import { HydratedDocument } from 'mongoose';
 import { generateToken } from '../libs/jwt.helpers';
+import { jwtPayload } from '../types/custom.types';
 import Joi from 'joi';
 
 export const signupController = async (req: Request, res: Response) => {
@@ -39,7 +40,13 @@ export const signupController = async (req: Request, res: Response) => {
 
     // Generate Token and send Response
     console.log(`Generate token`);
-    const token = generateToken(newUser.email);
+    const tokenPayload : jwtPayload = {
+        email: newUser.email,
+        firstname: newUser.firstname,
+        lastname: newUser.lastname
+    }
+    console.log(tokenPayload);
+    const token = generateToken(tokenPayload);
 
     // Send HTTP Response
     const response = {

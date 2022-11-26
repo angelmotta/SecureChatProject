@@ -3,6 +3,7 @@ import { UserModel, IUser } from '../models/user.model';
 import { generateToken } from '../libs/jwt.helpers';
 import { HydratedDocument } from 'mongoose';
 import { getListContactsDetails } from '../service/contacts.service';
+import { jwtPayload } from '../types/custom.types'
 import Joi from 'joi';
 
 export const loginController = async (req: Request, res: Response) => {
@@ -36,7 +37,13 @@ export const loginController = async (req: Request, res: Response) => {
     }
 
     // Generate Token
-    const token = generateToken(userDocument.email);
+    console.log(`Generate token`);
+    const tokenPayload : jwtPayload = {
+        email: userDocument.email,
+        firstname: userDocument.firstname,
+        lastname: userDocument.lastname
+    }
+    const token = generateToken(tokenPayload);
 
     // Get Contacts List
     const myContactListDetail = await getListContactsDetails(
