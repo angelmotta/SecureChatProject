@@ -6,6 +6,7 @@ import Joi  from 'joi';
 export const addContactController = async (req: Request, res: Response) => {
     const loggedUser = req.email;
     if (!loggedUser) {
+        console.log(`there is no logged user`);
         res.status(400).json({"status": 0, "message": "User not authorized"});
         return;
     }
@@ -15,6 +16,7 @@ export const addContactController = async (req: Request, res: Response) => {
     if (error) {
         console.log(error);
         res.status(404).json({"status": 0, "message": "Bad request"});
+        return;
     }
 
     // Find Logged User in MongoDB
